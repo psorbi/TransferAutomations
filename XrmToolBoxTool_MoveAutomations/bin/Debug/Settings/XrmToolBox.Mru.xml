@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMostRecentlyUsedItem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MostRecentlyUsedItem>
+    <ConnectionId>c650e378-8007-4842-a79b-1c2fa41256dc</ConnectionId>
+    <ConnectionName>Sorbi TEST</ConnectionName>
+    <Date>2023-12-15T17:05:52.7152741-05:00</Date>
+    <PluginName>My First Plugin</PluginName>
+  </MostRecentlyUsedItem>
+  <MostRecentlyUsedItem>
+    <ConnectionId>c650e378-8007-4842-a79b-1c2fa41256dc</ConnectionId>
+    <ConnectionName>Sorbi TEST</ConnectionName>
+    <Date>2023-12-29T10:42:56.4395609-05:00</Date>
+    <PluginName>Transfer Automations</PluginName>
+  </MostRecentlyUsedItem>
+  <MostRecentlyUsedItem>
+    <ConnectionId>f497e68f-d152-4851-9c95-c0cc5860a70b</ConnectionId>
+    <ConnectionName>Cook DEV</ConnectionName>
+    <Date>2023-12-29T16:05:34.42165-05:00</Date>
+    <PluginName>Transfer Automations</PluginName>
+  </MostRecentlyUsedItem>
+</ArrayOfMostRecentlyUsedItem>
