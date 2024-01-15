@@ -34,17 +34,17 @@
             this.tsbSample = new System.Windows.Forms.ToolStripButton();
             this.btnSelectTarget = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbTargetEnvValue = new System.Windows.Forms.Label();
+            this.lbSourceEnvValue = new System.Windows.Forms.Label();
+            this.cbTargetSolution = new System.Windows.Forms.ComboBox();
+            this.lbTargetSolution = new System.Windows.Forms.Label();
+            this.lbSourceEnvironment = new System.Windows.Forms.Label();
+            this.lbSourceSolution = new System.Windows.Forms.Label();
+            this.cbSourceSolution = new System.Windows.Forms.ComboBox();
             this.lvSourceProcesses = new System.Windows.Forms.ListView();
             this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chEntity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chEnvironmentState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cbSourceSolution = new System.Windows.Forms.ComboBox();
-            this.lbSourceSolution = new System.Windows.Forms.Label();
-            this.lbTargetSolution = new System.Windows.Forms.Label();
-            this.cbTargetSolution = new System.Windows.Forms.ComboBox();
-            this.lbSourceEnvironment = new System.Windows.Forms.Label();
-            this.lbSourceEnvValue = new System.Windows.Forms.Label();
-            this.lbTargetEnvValue = new System.Windows.Forms.Label();
             this.lvTargetProcesses = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -117,6 +117,71 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection Details";
             // 
+            // lbTargetEnvValue
+            // 
+            this.lbTargetEnvValue.AutoSize = true;
+            this.lbTargetEnvValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbTargetEnvValue.Location = new System.Drawing.Point(109, 45);
+            this.lbTargetEnvValue.Name = "lbTargetEnvValue";
+            this.lbTargetEnvValue.Size = new System.Drawing.Size(61, 13);
+            this.lbTargetEnvValue.TabIndex = 15;
+            this.lbTargetEnvValue.Text = "Unselected";
+            // 
+            // lbSourceEnvValue
+            // 
+            this.lbSourceEnvValue.AutoSize = true;
+            this.lbSourceEnvValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lbSourceEnvValue.Location = new System.Drawing.Point(109, 19);
+            this.lbSourceEnvValue.Name = "lbSourceEnvValue";
+            this.lbSourceEnvValue.Size = new System.Drawing.Size(61, 13);
+            this.lbSourceEnvValue.TabIndex = 14;
+            this.lbSourceEnvValue.Text = "Unselected";
+            // 
+            // cbTargetSolution
+            // 
+            this.cbTargetSolution.FormattingEnabled = true;
+            this.cbTargetSolution.Location = new System.Drawing.Point(263, 42);
+            this.cbTargetSolution.Name = "cbTargetSolution";
+            this.cbTargetSolution.Size = new System.Drawing.Size(131, 21);
+            this.cbTargetSolution.TabIndex = 13;
+            this.cbTargetSolution.SelectedIndexChanged += new System.EventHandler(this.cbTargetSolution_SelectedIndexChanged);
+            // 
+            // lbTargetSolution
+            // 
+            this.lbTargetSolution.AutoSize = true;
+            this.lbTargetSolution.Location = new System.Drawing.Point(178, 45);
+            this.lbTargetSolution.Name = "lbTargetSolution";
+            this.lbTargetSolution.Size = new System.Drawing.Size(79, 13);
+            this.lbTargetSolution.TabIndex = 12;
+            this.lbTargetSolution.Text = "Target Solution";
+            // 
+            // lbSourceEnvironment
+            // 
+            this.lbSourceEnvironment.AutoSize = true;
+            this.lbSourceEnvironment.Location = new System.Drawing.Point(4, 19);
+            this.lbSourceEnvironment.Name = "lbSourceEnvironment";
+            this.lbSourceEnvironment.Size = new System.Drawing.Size(103, 13);
+            this.lbSourceEnvironment.TabIndex = 6;
+            this.lbSourceEnvironment.Text = "Source Environment";
+            // 
+            // lbSourceSolution
+            // 
+            this.lbSourceSolution.AutoSize = true;
+            this.lbSourceSolution.Location = new System.Drawing.Point(178, 19);
+            this.lbSourceSolution.Name = "lbSourceSolution";
+            this.lbSourceSolution.Size = new System.Drawing.Size(82, 13);
+            this.lbSourceSolution.TabIndex = 11;
+            this.lbSourceSolution.Text = "Source Solution";
+            // 
+            // cbSourceSolution
+            // 
+            this.cbSourceSolution.FormattingEnabled = true;
+            this.cbSourceSolution.Location = new System.Drawing.Point(263, 16);
+            this.cbSourceSolution.Name = "cbSourceSolution";
+            this.cbSourceSolution.Size = new System.Drawing.Size(131, 21);
+            this.cbSourceSolution.TabIndex = 10;
+            this.cbSourceSolution.SelectedIndexChanged += new System.EventHandler(this.cbSourceSolution_SelectedIndexChanged);
+            // 
             // lvSourceProcesses
             // 
             this.lvSourceProcesses.CheckBoxes = true;
@@ -124,6 +189,7 @@
             this.chName,
             this.chEntity,
             this.chEnvironmentState});
+            this.lvSourceProcesses.FullRowSelect = true;
             this.lvSourceProcesses.HideSelection = false;
             this.lvSourceProcesses.Location = new System.Drawing.Point(3, 133);
             this.lvSourceProcesses.Name = "lvSourceProcesses";
@@ -147,71 +213,6 @@
             // 
             this.chEnvironmentState.Text = "State";
             this.chEnvironmentState.Width = 100;
-            // 
-            // cbSourceSolution
-            // 
-            this.cbSourceSolution.FormattingEnabled = true;
-            this.cbSourceSolution.Location = new System.Drawing.Point(263, 16);
-            this.cbSourceSolution.Name = "cbSourceSolution";
-            this.cbSourceSolution.Size = new System.Drawing.Size(131, 21);
-            this.cbSourceSolution.TabIndex = 10;
-            this.cbSourceSolution.SelectedIndexChanged += new System.EventHandler(this.cbSourceSolution_SelectedIndexChanged);
-            // 
-            // lbSourceSolution
-            // 
-            this.lbSourceSolution.AutoSize = true;
-            this.lbSourceSolution.Location = new System.Drawing.Point(178, 19);
-            this.lbSourceSolution.Name = "lbSourceSolution";
-            this.lbSourceSolution.Size = new System.Drawing.Size(82, 13);
-            this.lbSourceSolution.TabIndex = 11;
-            this.lbSourceSolution.Text = "Source Solution";
-            // 
-            // lbTargetSolution
-            // 
-            this.lbTargetSolution.AutoSize = true;
-            this.lbTargetSolution.Location = new System.Drawing.Point(178, 45);
-            this.lbTargetSolution.Name = "lbTargetSolution";
-            this.lbTargetSolution.Size = new System.Drawing.Size(79, 13);
-            this.lbTargetSolution.TabIndex = 12;
-            this.lbTargetSolution.Text = "Target Solution";
-            // 
-            // cbTargetSolution
-            // 
-            this.cbTargetSolution.FormattingEnabled = true;
-            this.cbTargetSolution.Location = new System.Drawing.Point(263, 42);
-            this.cbTargetSolution.Name = "cbTargetSolution";
-            this.cbTargetSolution.Size = new System.Drawing.Size(131, 21);
-            this.cbTargetSolution.TabIndex = 13;
-            this.cbTargetSolution.SelectedIndexChanged += new System.EventHandler(this.cbTargetSolution_SelectedIndexChanged);
-            // 
-            // lbSourceEnvironment
-            // 
-            this.lbSourceEnvironment.AutoSize = true;
-            this.lbSourceEnvironment.Location = new System.Drawing.Point(4, 19);
-            this.lbSourceEnvironment.Name = "lbSourceEnvironment";
-            this.lbSourceEnvironment.Size = new System.Drawing.Size(103, 13);
-            this.lbSourceEnvironment.TabIndex = 6;
-            this.lbSourceEnvironment.Text = "Source Environment";
-            // 
-            // lbSourceEnvValue
-            // 
-            this.lbSourceEnvValue.AutoSize = true;
-            this.lbSourceEnvValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbSourceEnvValue.Location = new System.Drawing.Point(109, 19);
-            this.lbSourceEnvValue.Name = "lbSourceEnvValue";
-            this.lbSourceEnvValue.Size = new System.Drawing.Size(61, 13);
-            this.lbSourceEnvValue.TabIndex = 14;
-            this.lbSourceEnvValue.Text = "Unselected";
-            // 
-            // lbTargetEnvValue
-            // 
-            this.lbTargetEnvValue.AutoSize = true;
-            this.lbTargetEnvValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lbTargetEnvValue.Location = new System.Drawing.Point(109, 45);
-            this.lbTargetEnvValue.Name = "lbTargetEnvValue";
-            this.lbTargetEnvValue.Size = new System.Drawing.Size(61, 13);
-            this.lbTargetEnvValue.TabIndex = 15;
-            this.lbTargetEnvValue.Text = "Unselected";
             // 
             // lvTargetProcesses
             // 

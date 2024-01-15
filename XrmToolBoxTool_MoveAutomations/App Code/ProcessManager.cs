@@ -15,7 +15,7 @@ namespace XrmToolBoxTool_MoveAutomations.AppCode
             _service = service;
         }
 
-        public List<Entity> LoadProcesses(KeyValuePair<string, Guid> solution)
+        public List<Entity> LoadProcesses(string solution)
         {
             var query = new QueryExpression("workflow")
             {
@@ -48,7 +48,7 @@ namespace XrmToolBoxTool_MoveAutomations.AppCode
                         {
                             Conditions =
                             {
-                                new ConditionExpression("uniquename", ConditionOperator.Equal, solution.Key)
+                                new ConditionExpression("uniquename", ConditionOperator.Equal, solution)
                             }
                         }
                     }

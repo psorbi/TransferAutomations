@@ -47,7 +47,7 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void MyPluginControl_Load(object sender, EventArgs e)
         {
-            ShowInfoNotification("This is a notification that can lead to XrmToolBox repository", new Uri("https://github.com/MscrmTools/XrmToolBox"));
+            //ShowInfoNotification("This is a notification that can lead to XrmToolBox repository", new Uri("https://github.com/MscrmTools/XrmToolBox"));
 
             // Loads or creates the settings for the plugin
             if (!SettingsManager.Instance.TryLoad(GetType(), out mySettings))
@@ -237,7 +237,7 @@ namespace XrmToolBoxTool_MoveAutomations
 
         }
 
-        private void LoadProcesses(KeyValuePair <string, Guid> solution, serviceType serviceType)
+        private void LoadProcesses(string solution, serviceType serviceType)
         {
             
             //clears the lv
@@ -357,23 +357,57 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void TransferAutomations()
         {
-            if (lvSourceProcesses.SelectedItems.Count == 0)
+            string solutionName =  cbTargetSolution.Text;
+            List<ProcessInfo> selectedProcesses = lvSourceProcesses.CheckedItems.Cast<ListViewItem>().Select(item => (ProcessInfo)item.Tag).ToList();
+
+            if (lvSourceProcesses.CheckedItems.Count == 0)
             {
                 MessageBox.Show("You must select at least one automation to be transfered", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            else if (lvSourceProcesses.SelectedItems.Count > 0 && AdditionalConnectionDetails.Count > 0)
+
+            else if (lvSourceProcesses.CheckedItems.Count > 0 && AdditionalConnectionDetails.Count > 0)
             {
-                CreateProcessesInTarget();
+                WorkAsync(new WorkAsyncInfo
+                {
+                    Message = "Transfering Automations",
+                    Work = (w, e) =>
+                    {
+                        // This code is executed in another thread
+                        // ExecuteMethod(CreateProcessesInTarget(solutionName, selectedProcesses));
+                        CreateProcessesInTarget(solutionName, selectedProcesses);
+
+                        e.Result = 1;
+                    },
+                    ProgressChanged = e =>
+                    {
+                        SetWorkingMessage(e.UserState.ToString());
+                    },
+                    PostWorkCallBack = e =>
+                    {
+                        if (e.Error == null)
+                        {
+                            LoadProcesses(solutionName, serviceType.Target);
+                        }
+                        if (e.Error != null)
+                        {
+                            MessageBox.Show(this, $@"Error while transferring processes: {e.Error.Message}", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    },
+                    AsyncArgument = null,
+                    // Progress information panel size
+                    MessageWidth = 340,
+                    MessageHeight = 150
+                });
+                
                 
             }
         }
 
-        private void CreateProcessesInTarget()
+        private void CreateProcessesInTarget(string solutionName, List<ProcessInfo> selectedProcesses)
         {
-            KeyValuePair<string, Guid> solutionKVP = targetSolutions.FirstOrDefault(x => x.Key == cbTargetSolution.Text);
-            List<ProcessInfo> selectedProcesses = lvSourceProcesses.SelectedItems.Cast<ListViewItem>().Select(item => (ProcessInfo)item.Tag).ToList();
             Entity sourceProcess = new Entity();
             ColumnSet columns = new ColumnSet("asyncautodelete", "businessprocesstype", "category", "clientdata", "componentstate", "createmetadata",
                 "createstage", "definition", "deletestage", "description", "entityimage", "formid", "inputparameters", "inputs", "introducedversion", "iscrmuiworkflow",
@@ -389,12 +423,16 @@ namespace XrmToolBoxTool_MoveAutomations
                     sourceProcess = Service.Retrieve(entityName: item.LogicalName, id: item.Id, columnSet: columns);
 
                     //add a condition to check for exitsting process in target
+
+
+
                     targetService.Create(sourceProcess);
 
+                    //Create the Solution Component
                     var newProcess = targetService.Retrieve(item.LogicalName, item.Id, new ColumnSet("workflowid"));
                     if(newProcess.Id != null)
                     {
-                        CreateProcessSolutionComponent(newProcess.Id, solutionKVP.Key);
+                        CreateProcessSolutionComponent(newProcess.Id, solutionName);
                     }
                     
 
@@ -403,11 +441,6 @@ namespace XrmToolBoxTool_MoveAutomations
                 {
                     throw new Exception(ex.Message); //replace this with a log?
                 }
-
-            }
-            if (solutionKVP.Key != null)
-            {
-                LoadProcesses(solutionKVP, serviceType.Target);
 
             }
         }
@@ -431,21 +464,23 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void cbSourceSolution_SelectedIndexChanged(object sender, EventArgs e)
         {
-            KeyValuePair<string, Guid> solutionKVP = sourceSolutions.FirstOrDefault(x => x.Key == cbSourceSolution.Text);
+            //KeyValuePair<string, Guid> solutionKVP = sourceSolutions.FirstOrDefault(x => x.Key == cbSourceSolution.Text);
+            string solutionName = cbSourceSolution.Text;
 
-            if (solutionKVP.Key != null)
+            if (solutionName != null)
             {
-                LoadProcesses(solutionKVP, serviceType.Source);
+                LoadProcesses(solutionName, serviceType.Source);
             }
         }
 
         private void cbTargetSolution_SelectedIndexChanged(object sender, EventArgs e)
         {
-            KeyValuePair<string, Guid> solutionKVP = targetSolutions.FirstOrDefault(x => x.Key == cbTargetSolution.Text);
+            //KeyValuePair<string, Guid> solutionKVP = targetSolutions.FirstOrDefault(x => x.Key == cbTargetSolution.Text);
+            string solutionName = cbTargetSolution.Text;
 
-            if (solutionKVP.Key != null)
+            if (solutionName != null)
             {
-                LoadProcesses(solutionKVP, serviceType.Target);
+                LoadProcesses(solutionName, serviceType.Target);
             }
         }
 
