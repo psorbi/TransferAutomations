@@ -4,6 +4,8 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Organization;
 using Microsoft.Xrm.Sdk.Query;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -409,22 +411,32 @@ namespace XrmToolBoxTool_MoveAutomations
         private void CreateProcessesInTarget(string solutionName, List<ProcessInfo> selectedProcesses)
         {
             Entity sourceProcess = new Entity();
+
             ColumnSet columns = new ColumnSet("asyncautodelete", "businessprocesstype", "category", "clientdata", "componentstate", "createmetadata",
                 "createstage", "definition", "deletestage", "description", "entityimage", "formid", "inputparameters", "inputs", "introducedversion", "iscrmuiworkflow",
                 "ismanaged", "istransacted", "languagecode", "metadata", "mode", "name", "ondemand", "outputs", "primaryentity", "processorder", "processroleassignment",
                 "processtriggerscope", "rank", "rendererobjecttypecode", "runas", "schemaversion", "scope", "subprocess", "suspensionreasondetails",
                 "syncworkflowlogonfailure", "throttlingbehavior", "triggeroncreate", "triggerondelete", "triggeronupdateattributelist", "type", "uiflowtype", "uniquename",
                 "updatestage", "versionnumber", "workflowid", "workflowidunique", "xaml"); //owner set by dynamics on create, set solution id separately - "statecode","statuscode",
+            String clientDataJson;
+
 
             foreach (var item in selectedProcesses)
             {
                 try
                 {
                     sourceProcess = Service.Retrieve(entityName: item.LogicalName, id: item.Id, columnSet: columns);
+                    clientDataJson = sourceProcess.GetAttributeValue<String>("clientdata");
+                    
+                    //if turn workflow on is checked
+
+                    //if workflow is a Modern Flow (category = 5), handle the Connection References
+                    if (sourceProcess.GetAttributeValue<OptionSetValue>("category").Value == 5)
+                    {
+                        sourceProcess["clientdata"] = EditConnectionReferences(clientDataJson);
+                    }
 
                     //add a condition to check for exitsting process in target
-
-
 
                     targetService.Create(sourceProcess);
 
@@ -456,6 +468,17 @@ namespace XrmToolBoxTool_MoveAutomations
             };
 
             var response = (AddSolutionComponentResponse)targetService.Execute(request); 
+        }
+
+        private string EditConnectionReferences(String clientDataJson)
+        { 
+            //edit the JSON to remove the Connection References
+            JObject clientData = JObject.Parse(clientDataJson);
+            JObject clientDataProperties = (JObject)clientData["properties"];
+
+            clientDataProperties["connectionReferences"] = null;
+
+            return(clientData.ToString());
         }
         private void btnSelectTarget_Click(object sender, EventArgs e)
         {
