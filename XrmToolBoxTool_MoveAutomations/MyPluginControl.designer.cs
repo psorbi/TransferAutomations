@@ -266,11 +266,11 @@
             // 
             // btn
             // 
-            this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn.ForeColor = System.Drawing.Color.Blue;
-            this.btn.Location = new System.Drawing.Point(419, 41);
+            this.btn.Location = new System.Drawing.Point(842, 66);
             this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(134, 23);
+            this.btn.Size = new System.Drawing.Size(162, 31);
             this.btn.TabIndex = 13;
             this.btn.Text = "Transfer Automations";
             this.btn.UseVisualStyleBackColor = true;

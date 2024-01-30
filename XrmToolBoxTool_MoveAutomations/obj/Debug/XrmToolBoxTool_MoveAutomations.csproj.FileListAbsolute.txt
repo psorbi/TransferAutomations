@@ -53,3 +53,4 @@ C:\Users\PatriciaSorbi\source\repos\XrmToolBoxTool_MoveAutomations\XrmToolBoxToo
 C:\Users\PatriciaSorbi\source\repos\XrmToolBoxTool_MoveAutomations\XrmToolBoxTool_MoveAutomations\obj\Debug\XrmToolBoxTool_MoveAutomations.csproj.CopyComplete
 C:\Users\PatriciaSorbi\source\repos\XrmToolBoxTool_MoveAutomations\XrmToolBoxTool_MoveAutomations\obj\Debug\XrmToolBoxTool_MoveAutomations.dll
 C:\Users\PatriciaSorbi\source\repos\XrmToolBoxTool_MoveAutomations\XrmToolBoxTool_MoveAutomations\obj\Debug\XrmToolBoxTool_MoveAutomations.pdb
+C:\Users\PatriciaSorbi\source\repos\XrmToolBoxTool_MoveAutomations\XrmToolBoxTool_MoveAutomations\obj\Debug\XrmToolBoxTool_MoveAutomations.Forms.ErrorList.resources

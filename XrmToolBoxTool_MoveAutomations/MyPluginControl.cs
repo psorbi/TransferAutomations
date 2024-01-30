@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 using XrmToolBoxTool_MoveAutomations.AppCode;
+using XrmToolBoxTool_MoveAutomations.Forms;
 
 namespace XrmToolBoxTool_MoveAutomations
 {
@@ -388,13 +389,16 @@ namespace XrmToolBoxTool_MoveAutomations
                     },
                     PostWorkCallBack = e =>
                     {
-                        if (e.Error == null)
+                        if (ErrorHandling.Errors == null)
                         {
                             LoadProcesses(solutionName, serviceType.Target);
                         }
-                        if (e.Error != null)
+                        if (ErrorHandling.Errors != null)
                         {
-                            MessageBox.Show(this, $@"Error while transferring processes: {e.Error.Message}", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            LoadProcesses(solutionName, serviceType.Target);
+
+                            ErrorList errors = new ErrorList();
+                            errors.ShowDialog();
                             return;
                         }
                     },
@@ -411,7 +415,6 @@ namespace XrmToolBoxTool_MoveAutomations
         private void CreateProcessesInTarget(string solutionName, List<ProcessInfo> selectedProcesses)
         {
             Entity sourceProcess = new Entity();
-
             ColumnSet columns = new ColumnSet("asyncautodelete", "businessprocesstype", "category", "clientdata", "componentstate", "createmetadata",
                 "createstage", "definition", "deletestage", "description", "entityimage", "formid", "inputparameters", "inputs", "introducedversion", "iscrmuiworkflow",
                 "ismanaged", "istransacted", "languagecode", "metadata", "mode", "name", "ondemand", "outputs", "primaryentity", "processorder", "processroleassignment",
@@ -419,6 +422,7 @@ namespace XrmToolBoxTool_MoveAutomations
                 "syncworkflowlogonfailure", "throttlingbehavior", "triggeroncreate", "triggerondelete", "triggeronupdateattributelist", "type", "uiflowtype", "uniquename",
                 "updatestage", "versionnumber", "workflowid", "workflowidunique", "xaml"); //owner set by dynamics on create, set solution id separately - "statecode","statuscode",
             String clientDataJson;
+            
 
 
             foreach (var item in selectedProcesses)
@@ -451,7 +455,7 @@ namespace XrmToolBoxTool_MoveAutomations
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message); //replace this with a log?
+                    ErrorHandling.AddError(item.Name, ex);
                 }
 
             }
@@ -480,6 +484,7 @@ namespace XrmToolBoxTool_MoveAutomations
 
             return(clientData.ToString());
         }
+
         private void btnSelectTarget_Click(object sender, EventArgs e)
         {
             ExecuteMethod(AddAdditionalOrganization);
