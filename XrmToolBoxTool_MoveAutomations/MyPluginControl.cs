@@ -186,6 +186,8 @@ namespace XrmToolBoxTool_MoveAutomations
                     {
                         retrieveService = Service;
                         sourceSolutions?.Clear();
+                        cbSourceSolution.Items.Clear();
+                        cbSourceSolution.ResetText();
                         break;
                     }
             
@@ -193,6 +195,8 @@ namespace XrmToolBoxTool_MoveAutomations
                     {
                         retrieveService = targetService;
                         targetSolutions?.Clear();
+                        cbTargetSolution.Items.Clear();
+                        cbTargetSolution.ResetText();
                         break;
                     }
             }
@@ -276,17 +280,6 @@ namespace XrmToolBoxTool_MoveAutomations
                         return;
                     }
 
-                    //foreach (var pi in _processInfos)
-                    //{
-                    //    var grp = pi.Category;
-
-                    //    if (lvProcesses.Groups[grp] == null)
-                    //    {
-                    //        lvProcesses.Groups.Add(grp, grp);
-                    //    }
-
-                    //    pi.Item.Group = lvProcesses.Groups[grp];
-                    //}
 
                     DisplayProcesses(serviceType);
                 }
@@ -316,13 +309,6 @@ namespace XrmToolBoxTool_MoveAutomations
                 listView.Items.Clear();
                 listView.Items.AddRange(_processInfos.Where(p =>
                 term == null || p.Item.Text.ToLower().IndexOf(term.ToString().ToLower()) >= 0)
-                /*.Where(p => chkShowActions.Checked && p.CategoryCode == 3
-                    || chkShowBusinessProcessFlows.Checked && p.CategoryCode == 4
-                    || chkShowBusinessRules.Checked && p.CategoryCode == 2
-                    || chkShowModernFlows.Checked && p.CategoryCode == 5
-                    || chkShowWorkflows.Checked && p.CategoryCode == 0
-                )*/ //select which automation to add to list view
-                /*.Where(p => !chkShowOnlyDifference.Checked || chkShowOnlyDifference.Checked && p.HasDifference)*/ //when comparing only add processes with different states
                 .Select(pi => pi.Item)
                 .ToArray());
 
@@ -363,12 +349,23 @@ namespace XrmToolBoxTool_MoveAutomations
             string solutionName =  cbTargetSolution.Text;
             List<ProcessInfo> selectedProcesses = lvSourceProcesses.CheckedItems.Cast<ListViewItem>().Select(item => (ProcessInfo)item.Tag).ToList();
 
-            if (lvSourceProcesses.CheckedItems.Count == 0)
+            if (targetService == null)
+            {
+                MessageBox.Show("You must connect to a Target Environment", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            else if (cbTargetSolution.SelectedItem == null)
+            {
+                MessageBox.Show("You must select a Target Solution", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            else if (lvSourceProcesses.CheckedItems.Count == 0)
             {
                 MessageBox.Show("You must select at least one automation to be transfered", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
 
             else if (lvSourceProcesses.CheckedItems.Count > 0 && AdditionalConnectionDetails.Count > 0)
             {
@@ -422,7 +419,7 @@ namespace XrmToolBoxTool_MoveAutomations
                 "syncworkflowlogonfailure", "throttlingbehavior", "triggeroncreate", "triggerondelete", "triggeronupdateattributelist", "type", "uiflowtype", "uniquename",
                 "updatestage", "versionnumber", "workflowid", "workflowidunique", "xaml"); //owner set by dynamics on create, set solution id separately - "statecode","statuscode",
             String clientDataJson;
-            
+            ErrorHandling.ClearErrors();
 
 
             foreach (var item in selectedProcesses)
@@ -434,10 +431,11 @@ namespace XrmToolBoxTool_MoveAutomations
                     
                     //if turn workflow on is checked
 
-                    //if workflow is a Modern Flow (category = 5), handle the Connection References
+                    //if workflow is a Modern Flow (category = 5), handle the Connection References and Environment Variables
                     if (sourceProcess.GetAttributeValue<OptionSetValue>("category").Value == 5)
                     {
                         sourceProcess["clientdata"] = EditConnectionReferences(clientDataJson);
+                        //HandleEnvironmentVariables(clientDataJson);
                     }
 
                     //add a condition to check for exitsting process in target
@@ -484,6 +482,17 @@ namespace XrmToolBoxTool_MoveAutomations
 
             return(clientData.ToString());
         }
+
+        private void HandleEnvironmentVariables(String clientDataJson) 
+        {
+            JObject clientData = JObject.Parse(clientDataJson);
+            JObject clientDataProperties = (JObject)clientData["properties"];
+            JObject clientDataDefinition = (JObject)clientDataProperties["definition"];
+
+            //if does not start with $connections or $authentication it's an environment variable
+        }
+
+
 
         private void btnSelectTarget_Click(object sender, EventArgs e)
         {

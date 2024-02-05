@@ -20,7 +20,7 @@ namespace XrmToolBoxTool_MoveAutomations.AppCode
 
         public static void ClearErrors()
         {
-            Errors.Clear();
+            if (Errors != null) Errors.Clear();
         }
 
     }
