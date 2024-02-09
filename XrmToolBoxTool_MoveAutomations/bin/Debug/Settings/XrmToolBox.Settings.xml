@@ -44,13 +44,13 @@
   <NumberOfDaysToShowNewRibbon>7</NumberOfDaysToShowNewRibbon>
   <ShowCategoriesExpanded>false</ShowCategoriesExpanded>
   <UseLegacyToolsList>false</UseLegacyToolsList>
-  <LastAdvertisementDisplay>2024-01-29T17:06:17.4955705-05:00</LastAdvertisementDisplay>
-  <LastConnection>Sorbi TEST</LastConnection>
+  <LastAdvertisementDisplay>2024-02-05T18:59:53.5323432-05:00</LastAdvertisementDisplay>
+  <LastConnection>Cook DEV</LastConnection>
   <LastPlugin />
-  <LastUpdateCheck>2024-02-02T17:12:00.2889521-05:00</LastUpdateCheck>
+  <LastUpdateCheck>2024-02-09T11:36:36.5269244-05:00</LastUpdateCheck>
   <MostUsedList>
     <PluginUseCount>
-      <Count>101</Count>
+      <Count>127</Count>
       <Name>XrmToolBoxTool_MoveAutomations.MyPlugin</Name>
     </PluginUseCount>
   </MostUsedList>

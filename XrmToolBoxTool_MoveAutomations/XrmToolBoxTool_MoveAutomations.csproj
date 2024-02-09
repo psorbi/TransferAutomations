@@ -173,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App Code\ErrorHandling.cs" />
+    <Compile Include="App Code\FlowVariable.cs" />
     <Compile Include="Forms\ErrorList.cs">
       <SubType>Form</SubType>
     </Compile>

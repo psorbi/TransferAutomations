@@ -54,7 +54,7 @@
             // chError
             // 
             this.chError.Text = "Error";
-            this.chError.Width = 550;
+            this.chError.Width = 700;
             // 
             // ErrorList
             // 

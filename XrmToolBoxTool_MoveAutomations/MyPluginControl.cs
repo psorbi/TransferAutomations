@@ -6,6 +6,7 @@ using Microsoft.Xrm.Sdk.Organization;
 using Microsoft.Xrm.Sdk.Query;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -19,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Web;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using XrmToolBox.Extensibility;
 using XrmToolBoxTool_MoveAutomations.AppCode;
 using XrmToolBoxTool_MoveAutomations.Forms;
@@ -435,10 +437,10 @@ namespace XrmToolBoxTool_MoveAutomations
                     if (sourceProcess.GetAttributeValue<OptionSetValue>("category").Value == 5)
                     {
                         sourceProcess["clientdata"] = EditConnectionReferences(clientDataJson);
-                        //HandleEnvironmentVariables(clientDataJson);
+                        HandleEnvironmentVariables(clientDataJson);
                     }
 
-                    //add a condition to check for exitsting process in target
+                    //add a condition to check for exitsting process in target?
 
                     targetService.Create(sourceProcess);
 
@@ -485,14 +487,110 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void HandleEnvironmentVariables(String clientDataJson) 
         {
+            //JSON from selected automation
             JObject clientData = JObject.Parse(clientDataJson);
-            JObject clientDataProperties = (JObject)clientData["properties"];
-            JObject clientDataDefinition = (JObject)clientDataProperties["definition"];
+
+            Dictionary<string, FlowVariable> parameters = new Dictionary<string, FlowVariable>();
+            parameters = clientData["properties"]["definition"]["parameters"].ToObject<Dictionary<string, FlowVariable>>();
 
             //if does not start with $connections or $authentication it's an environment variable
+            foreach (KeyValuePair<string, FlowVariable> pair in parameters)
+            {
+                if (pair.Key != "$connections" &&  pair.Key != "$authentication")
+                {
+                    if (!CheckForEnvironmentVariables(pair))
+                    {
+                        CreateEnvironmentVariable(pair);
+                    }
+
+                    
+                }
+            }
         }
 
+        private bool CheckForEnvironmentVariables(KeyValuePair<string, FlowVariable> enVar)
+        {
+            //Query target environment for variable with same schema name, return true if record exists
+            Dictionary<string, string> metadata = enVar.Value.Metadata;
+            string schemaName = enVar.Value.Metadata["schemaName"];
 
+
+            string query = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' returntotalrecordcount='true'>
+                <entity name='environmentvariabledefinition'>
+                <attribute name='environmentvariabledefinitionid'/>
+                <attribute name='schemaname'/>
+                <attribute name='createdon'/>
+                <order attribute='schemaname' descending='false'/>
+                <filter type='and'>
+                <condition attribute='schemaname' operator='eq' value='";
+            query += schemaName;
+            query +=  "'/></filter></entity></fetch>";
+
+
+            EntityCollection result = targetService.RetrieveMultiple(new FetchExpression(query)); 
+
+            if (result.TotalRecordCount > 0)
+            {
+                return true;
+            }
+            else return false;
+            
+        }
+
+        private void CreateEnvironmentVariable(KeyValuePair<string, FlowVariable> enVar)
+        {
+            Dictionary<string, string> metadata = enVar.Value.Metadata;
+            string schemaName = enVar.Value.Metadata["schemaName"];
+            Entity enVarDefinition = new Entity();
+
+            //environment variable definition with matching schemaName
+            string query = @"<fetch version='1.0' top='1' output-format='xml-platform' mapping='logical' distinct='false'>
+                <entity name='environmentvariabledefinition'>
+                <attribute name='environmentvariabledefinitionid'/>
+                <attribute name='schemaname'/>
+                <attribute name='createdon'/>
+                <order attribute='schemaname' descending='false'/>
+                <filter type='and'>
+                <condition attribute='schemaname' operator='eq' value='";
+            query += schemaName;
+            query += "'/></filter></entity></fetch>";
+
+            EntityCollection definitionResult = Service.RetrieveMultiple(new FetchExpression(query));
+
+            enVarDefinition = definitionResult[0];
+
+            //Create the environment variable definition in the target environment
+            targetService.Create(enVarDefinition);
+
+            //environment variable value with lookup to definition
+            string definitionGUID = enVarDefinition["environmentvariabledefinitionid"].ToString();
+            Entity enVarValue = new Entity();
+
+            string valueQuery = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' returntotalrecordcount='true'>
+                <entity name='environmentvariablevalue'>
+                <attribute name='environmentvariablevalueid'/>
+                <attribute name='value'/>
+                <attribute name='createdon'/>
+                <attribute name='statuscode'/>
+                <attribute name='statecode'/>
+                <attribute name='schemaname'/>
+                <attribute name='ismanaged'/>
+                <attribute name='environmentvariabledefinitionid'/>
+                <order attribute='createdon' descending='true'/>
+                <filter type='and'>
+                <condition attribute='environmentvariabledefinitionid' operator='eq' value='{";
+            valueQuery += definitionGUID;
+            valueQuery += "}'/></filter> </entity></fetch>";
+
+            EntityCollection valueResult = Service.RetrieveMultiple(new FetchExpression(valueQuery));
+
+            for (var i = 0; i <= valueResult.TotalRecordCount; i++) 
+            {
+                enVarValue = valueResult[i];
+                targetService.Create(enVarValue);
+            }
+            
+        }
 
         private void btnSelectTarget_Click(object sender, EventArgs e)
         {
@@ -501,7 +599,6 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void cbSourceSolution_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //KeyValuePair<string, Guid> solutionKVP = sourceSolutions.FirstOrDefault(x => x.Key == cbSourceSolution.Text);
             string solutionName = cbSourceSolution.Text;
 
             if (solutionName != null)
