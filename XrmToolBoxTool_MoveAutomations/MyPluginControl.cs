@@ -37,6 +37,12 @@ namespace XrmToolBoxTool_MoveAutomations
             Source,
             Target
         }
+        private enum componentType
+        {
+            Process,
+            environmentVariableDefinition,
+            environmentVariableValue
+        }
         private Dictionary<string, Guid> sourceSolutions = new Dictionary<string, Guid>(); 
         private Dictionary<string, Guid> targetSolutions = new Dictionary<string, Guid>();
         //private IOrganizationService sourceService = null;
@@ -419,7 +425,7 @@ namespace XrmToolBoxTool_MoveAutomations
                 "ismanaged", "istransacted", "languagecode", "metadata", "mode", "name", "ondemand", "outputs", "primaryentity", "processorder", "processroleassignment",
                 "processtriggerscope", "rank", "rendererobjecttypecode", "runas", "schemaversion", "scope", "subprocess", "suspensionreasondetails",
                 "syncworkflowlogonfailure", "throttlingbehavior", "triggeroncreate", "triggerondelete", "triggeronupdateattributelist", "type", "uiflowtype", "uniquename",
-                "updatestage", "versionnumber", "workflowid", "workflowidunique", "xaml"); //owner set by dynamics on create, set solution id separately - "statecode","statuscode",
+                "updatestage", "versionnumber", "workflowid", "workflowidunique", "xaml"); //owner set by dynamics on create - "statecode","statuscode",
             String clientDataJson;
             ErrorHandling.ClearErrors();
 
@@ -437,7 +443,7 @@ namespace XrmToolBoxTool_MoveAutomations
                     if (sourceProcess.GetAttributeValue<OptionSetValue>("category").Value == 5)
                     {
                         sourceProcess["clientdata"] = EditConnectionReferences(clientDataJson);
-                        HandleEnvironmentVariables(clientDataJson);
+                        HandleEnvironmentVariables(clientDataJson, solutionName);
                     }
 
                     //add a condition to check for exitsting process in target?
@@ -448,7 +454,7 @@ namespace XrmToolBoxTool_MoveAutomations
                     var newProcess = targetService.Retrieve(item.LogicalName, item.Id, new ColumnSet("workflowid"));
                     if(newProcess.Id != null)
                     {
-                        CreateProcessSolutionComponent(newProcess.Id, solutionName);
+                        CreateSolutionComponent(newProcess.Id, solutionName, componentType.Process);
                     }
                     
 
@@ -461,17 +467,42 @@ namespace XrmToolBoxTool_MoveAutomations
             }
         }
 
-        private void CreateProcessSolutionComponent(Guid workflowId, string solutionUniqueName)
+        private void CreateSolutionComponent(Guid Id, string solutionUniqueName, componentType type)
         {
+            AddSolutionComponentRequest record = null;
 
-            AddSolutionComponentRequest request = new AddSolutionComponentRequest()
+            switch (type)
             {
-                ComponentType = 29,
-                ComponentId = workflowId,
-                SolutionUniqueName = solutionUniqueName
-            };
+                case componentType.Process: 
+                    record = new AddSolutionComponentRequest()
+                    {
+                        ComponentType = 29,
+                        ComponentId = Id,
+                        SolutionUniqueName = solutionUniqueName
+                    };
+                    break;
+                
+                case componentType.environmentVariableDefinition: 
+                    record = new AddSolutionComponentRequest()
+                    {
+                        ComponentType = 380,
+                        ComponentId = Id,
+                        SolutionUniqueName = solutionUniqueName
+                    };
+                    break;
 
-            var response = (AddSolutionComponentResponse)targetService.Execute(request); 
+                case componentType.environmentVariableValue: 
+                    record = new AddSolutionComponentRequest()
+                    {
+                        ComponentType = 381,
+                        ComponentId = Id,
+                        SolutionUniqueName = solutionUniqueName
+                    };
+                    break;
+            }
+            
+
+            var response = (AddSolutionComponentResponse)targetService.Execute(record); 
         }
 
         private string EditConnectionReferences(String clientDataJson)
@@ -485,7 +516,7 @@ namespace XrmToolBoxTool_MoveAutomations
             return(clientData.ToString());
         }
 
-        private void HandleEnvironmentVariables(String clientDataJson) 
+        private void HandleEnvironmentVariables(String clientDataJson, string solutionName) 
         {
             //JSON from selected automation
             JObject clientData = JObject.Parse(clientDataJson);
@@ -500,10 +531,8 @@ namespace XrmToolBoxTool_MoveAutomations
                 {
                     if (!CheckForEnvironmentVariables(pair))
                     {
-                        CreateEnvironmentVariable(pair);
+                        CreateEnvironmentVariable(pair, solutionName);
                     }
-
-                    
                 }
             }
         }
@@ -537,7 +566,7 @@ namespace XrmToolBoxTool_MoveAutomations
             
         }
 
-        private void CreateEnvironmentVariable(KeyValuePair<string, FlowVariable> enVar)
+        private void CreateEnvironmentVariable(KeyValuePair<string, FlowVariable> enVar, string solutionName)
         {
             Dictionary<string, string> metadata = enVar.Value.Metadata;
             string schemaName = enVar.Value.Metadata["schemaName"];
@@ -549,6 +578,21 @@ namespace XrmToolBoxTool_MoveAutomations
                 <attribute name='environmentvariabledefinitionid'/>
                 <attribute name='schemaname'/>
                 <attribute name='createdon'/>
+                <attribute name='valueschema'/>
+                <attribute name='type'/>
+                <attribute name='statuscode'/>
+                <attribute name='statecode'/>
+                <attribute name='secretstore'/>
+                <attribute name='parentdefinitionid'/>
+                <attribute name='parameterkey'/>
+                <attribute name='isrequired'/>
+                <attribute name='ismanaged'/>
+                <attribute name='hint'/>
+                <attribute name='displayname'/>
+                <attribute name='description'/>
+                <attribute name='defaultvalue'/>
+                <attribute name='apiid'/>
+                <attribute name='overriddencreatedon'/>
                 <order attribute='schemaname' descending='false'/>
                 <filter type='and'>
                 <condition attribute='schemaname' operator='eq' value='";
@@ -562,8 +606,15 @@ namespace XrmToolBoxTool_MoveAutomations
             //Create the environment variable definition in the target environment
             targetService.Create(enVarDefinition);
 
+            //Create solution component for Environment Variable Definition
+            var newEnVarDef = targetService.Retrieve("environmentvariabledefinition", enVarDefinition.Id, new ColumnSet("environmentvariabledefinitionid"));
+            if (newEnVarDef.Id != null)
+            {
+                CreateSolutionComponent(newEnVarDef.Id, solutionName, componentType.environmentVariableDefinition);
+            }
+
             //environment variable value with lookup to definition
-            string definitionGUID = enVarDefinition["environmentvariabledefinitionid"].ToString();
+            string definitionGUID = enVarDefinition.Id.ToString();
             Entity enVarValue = new Entity();
 
             string valueQuery = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' returntotalrecordcount='true'>
@@ -584,10 +635,17 @@ namespace XrmToolBoxTool_MoveAutomations
 
             EntityCollection valueResult = Service.RetrieveMultiple(new FetchExpression(valueQuery));
 
-            for (var i = 0; i <= valueResult.TotalRecordCount; i++) 
+            for (var i = 0; i < valueResult.TotalRecordCount; i++) 
             {
                 enVarValue = valueResult[i];
                 targetService.Create(enVarValue);
+
+                //Create solution component for Environment Variable Value
+                var newEnVarValue = targetService.Retrieve("environmentvariablevalue", enVarValue.Id, new ColumnSet("environmentvariablevalueid"));
+                if (newEnVarValue.Id != null)
+                {
+                    CreateSolutionComponent(newEnVarValue.Id, solutionName, componentType.environmentVariableValue);
+                }
             }
             
         }
@@ -609,7 +667,6 @@ namespace XrmToolBoxTool_MoveAutomations
 
         private void cbTargetSolution_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //KeyValuePair<string, Guid> solutionKVP = targetSolutions.FirstOrDefault(x => x.Key == cbTargetSolution.Text);
             string solutionName = cbTargetSolution.Text;
 
             if (solutionName != null)
@@ -621,6 +678,11 @@ namespace XrmToolBoxTool_MoveAutomations
         private void btn_Click(object sender, EventArgs e)
         {
             TransferAutomations();
+        }
+
+        private void chkSelectAll_CheckedChanged(object sender, EventArgs e)
+        {
+            lvSourceProcesses.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = chkSelectAll.Checked);
         }
     }
 }

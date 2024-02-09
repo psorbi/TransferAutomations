@@ -49,11 +49,13 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lbSourceProcesses = new System.Windows.Forms.Label();
-            this.lbTargetProcesses = new System.Windows.Forms.Label();
             this.btn = new System.Windows.Forms.Button();
+            this.gbSourceProcesses = new System.Windows.Forms.GroupBox();
+            this.gbTargetProcesses = new System.Windows.Forms.GroupBox();
+            this.chkSelectAll = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.gbSourceProcesses.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -191,9 +193,9 @@
             this.chEnvironmentState});
             this.lvSourceProcesses.FullRowSelect = true;
             this.lvSourceProcesses.HideSelection = false;
-            this.lvSourceProcesses.Location = new System.Drawing.Point(3, 133);
+            this.lvSourceProcesses.Location = new System.Drawing.Point(7, 145);
             this.lvSourceProcesses.Name = "lvSourceProcesses";
-            this.lvSourceProcesses.Size = new System.Drawing.Size(505, 420);
+            this.lvSourceProcesses.Size = new System.Drawing.Size(495, 402);
             this.lvSourceProcesses.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvSourceProcesses.TabIndex = 9;
             this.lvSourceProcesses.UseCompatibleStateImageBehavior = false;
@@ -202,7 +204,7 @@
             // chName
             // 
             this.chName.Text = "Name";
-            this.chName.Width = 300;
+            this.chName.Width = 289;
             // 
             // chEntity
             // 
@@ -221,9 +223,9 @@
             this.columnHeader2,
             this.columnHeader3});
             this.lvTargetProcesses.HideSelection = false;
-            this.lvTargetProcesses.Location = new System.Drawing.Point(514, 133);
+            this.lvTargetProcesses.Location = new System.Drawing.Point(520, 145);
             this.lvTargetProcesses.Name = "lvTargetProcesses";
-            this.lvTargetProcesses.Size = new System.Drawing.Size(508, 420);
+            this.lvTargetProcesses.Size = new System.Drawing.Size(493, 402);
             this.lvTargetProcesses.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvTargetProcesses.TabIndex = 10;
             this.lvTargetProcesses.UseCompatibleStateImageBehavior = false;
@@ -232,7 +234,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 300;
+            this.columnHeader1.Width = 288;
             // 
             // columnHeader2
             // 
@@ -243,26 +245,6 @@
             // 
             this.columnHeader3.Text = "State";
             this.columnHeader3.Width = 100;
-            // 
-            // lbSourceProcesses
-            // 
-            this.lbSourceProcesses.AutoSize = true;
-            this.lbSourceProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSourceProcesses.Location = new System.Drawing.Point(4, 108);
-            this.lbSourceProcesses.Name = "lbSourceProcesses";
-            this.lbSourceProcesses.Size = new System.Drawing.Size(118, 16);
-            this.lbSourceProcesses.TabIndex = 11;
-            this.lbSourceProcesses.Text = "Source Processes";
-            // 
-            // lbTargetProcesses
-            // 
-            this.lbTargetProcesses.AutoSize = true;
-            this.lbTargetProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTargetProcesses.Location = new System.Drawing.Point(511, 107);
-            this.lbTargetProcesses.Name = "lbTargetProcesses";
-            this.lbTargetProcesses.Size = new System.Drawing.Size(115, 16);
-            this.lbTargetProcesses.TabIndex = 12;
-            this.lbTargetProcesses.Text = "Target Processes";
             // 
             // btn
             // 
@@ -276,17 +258,50 @@
             this.btn.UseVisualStyleBackColor = true;
             this.btn.Click += new System.EventHandler(this.btn_Click);
             // 
+            // gbSourceProcesses
+            // 
+            this.gbSourceProcesses.Controls.Add(this.chkSelectAll);
+            this.gbSourceProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbSourceProcesses.Location = new System.Drawing.Point(3, 103);
+            this.gbSourceProcesses.Name = "gbSourceProcesses";
+            this.gbSourceProcesses.Size = new System.Drawing.Size(505, 450);
+            this.gbSourceProcesses.TabIndex = 14;
+            this.gbSourceProcesses.TabStop = false;
+            this.gbSourceProcesses.Text = "Source Processes";
+            // 
+            // gbTargetProcesses
+            // 
+            this.gbTargetProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbTargetProcesses.Location = new System.Drawing.Point(514, 103);
+            this.gbTargetProcesses.Name = "gbTargetProcesses";
+            this.gbTargetProcesses.Size = new System.Drawing.Size(505, 450);
+            this.gbTargetProcesses.TabIndex = 15;
+            this.gbTargetProcesses.TabStop = false;
+            this.gbTargetProcesses.Text = "Target Processes";
+            // 
+            // chkSelectAll
+            // 
+            this.chkSelectAll.AutoSize = true;
+            this.chkSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkSelectAll.Location = new System.Drawing.Point(9, 19);
+            this.chkSelectAll.Name = "chkSelectAll";
+            this.chkSelectAll.Size = new System.Drawing.Size(117, 17);
+            this.chkSelectAll.TabIndex = 0;
+            this.chkSelectAll.Text = "Select/Unselect All";
+            this.chkSelectAll.UseVisualStyleBackColor = true;
+            this.chkSelectAll.CheckedChanged += new System.EventHandler(this.chkSelectAll_CheckedChanged);
+            // 
             // MyPluginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btn);
-            this.Controls.Add(this.lbTargetProcesses);
-            this.Controls.Add(this.lbSourceProcesses);
             this.Controls.Add(this.lvTargetProcesses);
             this.Controls.Add(this.lvSourceProcesses);
             this.Controls.Add(this.toolStripMenu);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbSourceProcesses);
+            this.Controls.Add(this.gbTargetProcesses);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "MyPluginControl";
             this.Size = new System.Drawing.Size(1025, 556);
@@ -295,6 +310,8 @@
             this.toolStripMenu.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.gbSourceProcesses.ResumeLayout(false);
+            this.gbSourceProcesses.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,8 +339,9 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.Label lbSourceProcesses;
-        private System.Windows.Forms.Label lbTargetProcesses;
         private System.Windows.Forms.Button btn;
+        private System.Windows.Forms.GroupBox gbSourceProcesses;
+        private System.Windows.Forms.GroupBox gbTargetProcesses;
+        private System.Windows.Forms.CheckBox chkSelectAll;
     }
 }

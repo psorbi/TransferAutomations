@@ -38,6 +38,7 @@
             this.lvErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chWorkflow,
             this.chError});
+            this.lvErrors.FullRowSelect = true;
             this.lvErrors.HideSelection = false;
             this.lvErrors.Location = new System.Drawing.Point(12, 12);
             this.lvErrors.Name = "lvErrors";
@@ -54,7 +55,7 @@
             // chError
             // 
             this.chError.Text = "Error";
-            this.chError.Width = 700;
+            this.chError.Width = 900;
             // 
             // ErrorList
             // 
