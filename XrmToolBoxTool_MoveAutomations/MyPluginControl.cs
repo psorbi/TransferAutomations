@@ -145,12 +145,6 @@ namespace XrmToolBoxTool_MoveAutomations
                 RetrieveSolutions(serviceType.Source);
             }
             
-
-            //if (mySettings != null && detail != null)
-            //{
-            //    mySettings.LastUsedOrganizationWebappUrl = detail.WebApplicationUrl;
-            //    LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
-            //}
         }
        
         protected override void ConnectionDetailsUpdated(NotifyCollectionChangedEventArgs e) 
@@ -470,37 +464,29 @@ namespace XrmToolBoxTool_MoveAutomations
         private void CreateSolutionComponent(Guid Id, string solutionUniqueName, componentType type)
         {
             AddSolutionComponentRequest record = null;
+            int componentInt = -1;
 
             switch (type)
             {
-                case componentType.Process: 
-                    record = new AddSolutionComponentRequest()
-                    {
-                        ComponentType = 29,
-                        ComponentId = Id,
-                        SolutionUniqueName = solutionUniqueName
-                    };
+                case componentType.Process:
+                    componentInt = 29;
                     break;
                 
-                case componentType.environmentVariableDefinition: 
-                    record = new AddSolutionComponentRequest()
-                    {
-                        ComponentType = 380,
-                        ComponentId = Id,
-                        SolutionUniqueName = solutionUniqueName
-                    };
+                case componentType.environmentVariableDefinition:
+                    componentInt = 380;
                     break;
 
-                case componentType.environmentVariableValue: 
-                    record = new AddSolutionComponentRequest()
-                    {
-                        ComponentType = 381,
-                        ComponentId = Id,
-                        SolutionUniqueName = solutionUniqueName
-                    };
+                case componentType.environmentVariableValue:
+                    componentInt = 381;
                     break;
             }
-            
+
+            record = new AddSolutionComponentRequest()
+            {
+                ComponentType = componentInt,
+                ComponentId = Id,
+                SolutionUniqueName = solutionUniqueName
+            };
 
             var response = (AddSolutionComponentResponse)targetService.Execute(record); 
         }

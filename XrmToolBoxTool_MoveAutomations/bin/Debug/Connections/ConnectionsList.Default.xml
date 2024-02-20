@@ -89,6 +89,35 @@
       <UserName>patriciasorbi@aeonnexus.com</UserName>
       <WebApplicationUrl>https://org0e0348b6.crm.dynamics.com</WebApplicationUrl>
     </ConnectionDetail>
+    <ConnectionDetail>
+      <AuthType>OnlineFederation</AuthType>
+      <AzureAdAppId>51f81489-12ee-4a9e-aaae-a2591f45987d</AzureAdAppId>
+      <BrowserName>None</BrowserName>
+      <ConnectionId>17b2d83a-7046-499c-8f93-35043fa3fedf</ConnectionId>
+      <ConnectionName>AZ Dev</ConnectionName>
+      <IsCustomAuth>false</IsCustomAuth>
+      <IsFromSdkLoginCtrl>true</IsFromSdkLoginCtrl>
+      <LastUsedOn>0001-01-01 00:00:00</LastUsedOn>
+      <NewAuthType>AD</NewAuthType>
+      <Organization>unq210da5005590ee118174000d3a106</Organization>
+      <OrganizationDataServiceUrl>https://azjusticenexusdev.api.crm.dynamics.com/api/data/v9.2/</OrganizationDataServiceUrl>
+      <OrganizationFriendlyName>AZ JusticeNexus Dev</OrganizationFriendlyName>
+      <OrganizationServiceUrl>https://azjusticenexusdev.api.crm.dynamics.com/XRMServices/2011/Organization.svc</OrganizationServiceUrl>
+      <OrganizationUrlName>azjusticenexusdev</OrganizationUrlName>
+      <OrganizationVersion>9.2.24012.238</OrganizationVersion>
+      <OriginalUrl>https://azjusticenexusdev.crm.dynamics.com</OriginalUrl>
+      <ReplyUrl>app://58145b91-0c36-4500-8554-080854f2ac97/</ReplyUrl>
+      <SavePassword>false</SavePassword>
+      <ServerName>azjusticenexusdev.crm.dynamics.com</ServerName>
+      <ServerPort />
+      <TenantId>00000000-0000-0000-0000-000000000000</TenantId>
+      <Timeout />
+      <TimeoutTicks>1200000000</TimeoutTicks>
+      <UseIfd>false</UseIfd>
+      <UseMfa>false</UseMfa>
+      <UserName>patriciasorbi@aeonnexus.com</UserName>
+      <WebApplicationUrl>https://azjusticenexusdev.crm.dynamics.com</WebApplicationUrl>
+    </ConnectionDetail>
   </Connections>
   <IsReadOnly>false</IsReadOnly>
   <Name>Default</Name>
