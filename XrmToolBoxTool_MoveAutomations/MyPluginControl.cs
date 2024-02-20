@@ -39,9 +39,9 @@ namespace XrmToolBoxTool_MoveAutomations
         }
         private enum componentType
         {
-            Process,
-            environmentVariableDefinition,
-            environmentVariableValue
+            Process = 29,
+            environmentVariableDefinition = 380,
+            environmentVariableValue = 381
         }
         private Dictionary<string, Guid> sourceSolutions = new Dictionary<string, Guid>(); 
         private Dictionary<string, Guid> targetSolutions = new Dictionary<string, Guid>();
@@ -216,20 +216,22 @@ namespace XrmToolBoxTool_MoveAutomations
             {
                 foreach (Entity solution in retrieveService.RetrieveMultiple(query).Entities)
                 {
-                    if (solution["uniquename"].ToString() != "System" && solution["uniquename"].ToString() != "Active" && solution["uniquename"].ToString() != "Basic" && solution["uniquename"].ToString() != "ActivityFeeds")
+                    string solutionName = solution["uniquename"].ToString();
+
+                    if (solutionName != "System" && solutionName != "Active" && solutionName != "Basic" && solutionName != "ActivityFeeds")
                     {                        
                         switch (serviceType)
                         {
                             case serviceType.Source:
                                 {
-                                    sourceSolutions.Add(solution["uniquename"].ToString(), solution.Id);
+                                    sourceSolutions.Add(solutionName, solution.Id);
                                     cbSourceSolution.Items.Add(solution["uniquename"]);
                                     break;
                                 }
 
                             case serviceType.Target:
                                 {
-                                    targetSolutions.Add(solution["uniquename"].ToString(), solution.Id);
+                                    targetSolutions.Add(solutionName, solution.Id);
                                     cbTargetSolution.Items.Add(solution["uniquename"]);
                                     break;
                                 }
@@ -464,26 +466,10 @@ namespace XrmToolBoxTool_MoveAutomations
         private void CreateSolutionComponent(Guid Id, string solutionUniqueName, componentType type)
         {
             AddSolutionComponentRequest record = null;
-            int componentInt = -1;
-
-            switch (type)
-            {
-                case componentType.Process:
-                    componentInt = 29;
-                    break;
-                
-                case componentType.environmentVariableDefinition:
-                    componentInt = 380;
-                    break;
-
-                case componentType.environmentVariableValue:
-                    componentInt = 381;
-                    break;
-            }
 
             record = new AddSolutionComponentRequest()
             {
-                ComponentType = componentInt,
+                ComponentType = (int)type,
                 ComponentId = Id,
                 SolutionUniqueName = solutionUniqueName
             };
