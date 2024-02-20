@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("XrmToolBoxTool_MoveAutomations")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("TransferAutomations")]
+[assembly: AssemblyDescription("Transfer Automations from a solution in one environment to a solution in another evnironment.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("XrmToolBoxTool_MoveAutomations")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCompany("Patricia Sorbi")]
+[assembly: AssemblyProduct("TransferAutomations")]
+[assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
