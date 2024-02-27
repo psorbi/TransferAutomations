@@ -44,12 +44,12 @@
   <NumberOfDaysToShowNewRibbon>7</NumberOfDaysToShowNewRibbon>
   <ShowCategoriesExpanded>false</ShowCategoriesExpanded>
   <UseLegacyToolsList>false</UseLegacyToolsList>
-  <LastAdvertisementDisplay>2024-02-14T13:57:51.4937206-05:00</LastAdvertisementDisplay>
+  <LastAdvertisementDisplay>2024-02-27T15:27:40.6030426-05:00</LastAdvertisementDisplay>
   <LastPlugin />
-  <LastUpdateCheck>2024-02-20T18:05:56.3125006-05:00</LastUpdateCheck>
+  <LastUpdateCheck>2024-02-27T15:27:34.1924794-05:00</LastUpdateCheck>
   <MostUsedList>
     <PluginUseCount>
-      <Count>141</Count>
+      <Count>142</Count>
       <Name>XrmToolBoxTool_MoveAutomations.MyPlugin</Name>
     </PluginUseCount>
   </MostUsedList>
@@ -63,9 +63,9 @@
   <PluginsStoreShowUpdates xsi:nil="true" />
   <PluginsUpdateSkip />
   <FormSize>
-    <Height>727</Height>
+    <Height>801</Height>
     <IsMaximized>false</IsMaximized>
-    <Width>1068</Width>
+    <Width>1239</Width>
   </FormSize>
   <RememberSession>false</RememberSession>
   <ByPassProxyOnLocal>false</ByPassProxyOnLocal>
