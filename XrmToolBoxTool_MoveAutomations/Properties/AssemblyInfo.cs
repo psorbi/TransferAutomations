@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TransferAutomations")]
+[assembly: AssemblyTitle("Transfer Automations")]
 [assembly: AssemblyDescription("Transfer Automations from a solution in one environment to a solution in another evnironment.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Patricia Sorbi")]

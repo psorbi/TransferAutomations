@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.toolStripMenu = new System.Windows.Forms.ToolStrip();
-            this.tsbClose = new System.Windows.Forms.ToolStripButton();
-            this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbSample = new System.Windows.Forms.ToolStripButton();
             this.btnSelectTarget = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbTargetEnvValue = new System.Windows.Forms.Label();
@@ -51,50 +47,18 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btn = new System.Windows.Forms.Button();
             this.gbSourceProcesses = new System.Windows.Forms.GroupBox();
-            this.gbTargetProcesses = new System.Windows.Forms.GroupBox();
             this.chkSelectAll = new System.Windows.Forms.CheckBox();
-            this.toolStripMenu.SuspendLayout();
+            this.gbTargetProcesses = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             this.gbSourceProcesses.SuspendLayout();
+            this.gbTargetProcesses.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolStripMenu
-            // 
-            this.toolStripMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbClose,
-            this.tssSeparator1,
-            this.tsbSample});
-            this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
-            this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(1025, 25);
-            this.toolStripMenu.TabIndex = 4;
-            this.toolStripMenu.Text = "toolStrip1";
-            // 
-            // tsbClose
-            // 
-            this.tsbClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(86, 22);
-            this.tsbClose.Text = "Close this tool";
-            this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
-            // 
-            // tssSeparator1
-            // 
-            this.tssSeparator1.Name = "tssSeparator1";
-            this.tssSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsbSample
-            // 
-            this.tsbSample.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbSample.Name = "tsbSample";
-            this.tsbSample.Size = new System.Drawing.Size(46, 22);
-            this.tsbSample.Text = "Try me";
-            this.tsbSample.Click += new System.EventHandler(this.tsbSample_Click);
             // 
             // btnSelectTarget
             // 
-            this.btnSelectTarget.Location = new System.Drawing.Point(9, 39);
+            this.btnSelectTarget.Location = new System.Drawing.Point(6, 39);
             this.btnSelectTarget.Name = "btnSelectTarget";
             this.btnSelectTarget.Size = new System.Drawing.Size(94, 23);
             this.btnSelectTarget.TabIndex = 5;
@@ -104,6 +68,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.lbTargetEnvValue);
             this.groupBox1.Controls.Add(this.lbSourceEnvValue);
             this.groupBox1.Controls.Add(this.cbTargetSolution);
@@ -112,9 +78,9 @@
             this.groupBox1.Controls.Add(this.btnSelectTarget);
             this.groupBox1.Controls.Add(this.lbSourceSolution);
             this.groupBox1.Controls.Add(this.cbSourceSolution);
-            this.groupBox1.Location = new System.Drawing.Point(3, 27);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(400, 70);
+            this.groupBox1.Size = new System.Drawing.Size(400, 68);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection Details";
@@ -178,7 +144,7 @@
             // cbSourceSolution
             // 
             this.cbSourceSolution.FormattingEnabled = true;
-            this.cbSourceSolution.Location = new System.Drawing.Point(263, 16);
+            this.cbSourceSolution.Location = new System.Drawing.Point(263, 15);
             this.cbSourceSolution.Name = "cbSourceSolution";
             this.cbSourceSolution.Size = new System.Drawing.Size(131, 21);
             this.cbSourceSolution.TabIndex = 10;
@@ -186,6 +152,9 @@
             // 
             // lvSourceProcesses
             // 
+            this.lvSourceProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvSourceProcesses.CheckBoxes = true;
             this.lvSourceProcesses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chName,
@@ -193,9 +162,9 @@
             this.chEnvironmentState});
             this.lvSourceProcesses.FullRowSelect = true;
             this.lvSourceProcesses.HideSelection = false;
-            this.lvSourceProcesses.Location = new System.Drawing.Point(7, 145);
+            this.lvSourceProcesses.Location = new System.Drawing.Point(6, 36);
             this.lvSourceProcesses.Name = "lvSourceProcesses";
-            this.lvSourceProcesses.Size = new System.Drawing.Size(495, 402);
+            this.lvSourceProcesses.Size = new System.Drawing.Size(496, 441);
             this.lvSourceProcesses.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvSourceProcesses.TabIndex = 9;
             this.lvSourceProcesses.UseCompatibleStateImageBehavior = false;
@@ -218,14 +187,17 @@
             // 
             // lvTargetProcesses
             // 
+            this.lvTargetProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvTargetProcesses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
             this.lvTargetProcesses.HideSelection = false;
-            this.lvTargetProcesses.Location = new System.Drawing.Point(520, 145);
+            this.lvTargetProcesses.Location = new System.Drawing.Point(3, 36);
             this.lvTargetProcesses.Name = "lvTargetProcesses";
-            this.lvTargetProcesses.Size = new System.Drawing.Size(493, 402);
+            this.lvTargetProcesses.Size = new System.Drawing.Size(495, 441);
             this.lvTargetProcesses.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvTargetProcesses.TabIndex = 10;
             this.lvTargetProcesses.UseCompatibleStateImageBehavior = false;
@@ -248,9 +220,10 @@
             // 
             // btn
             // 
+            this.btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn.ForeColor = System.Drawing.Color.Blue;
-            this.btn.Location = new System.Drawing.Point(842, 66);
+            this.btn.Location = new System.Drawing.Point(855, 40);
             this.btn.Name = "btn";
             this.btn.Size = new System.Drawing.Size(162, 31);
             this.btn.TabIndex = 13;
@@ -260,24 +233,18 @@
             // 
             // gbSourceProcesses
             // 
+            this.gbSourceProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSourceProcesses.Controls.Add(this.chkSelectAll);
+            this.gbSourceProcesses.Controls.Add(this.lvSourceProcesses);
             this.gbSourceProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSourceProcesses.Location = new System.Drawing.Point(3, 103);
+            this.gbSourceProcesses.Location = new System.Drawing.Point(3, 77);
             this.gbSourceProcesses.Name = "gbSourceProcesses";
-            this.gbSourceProcesses.Size = new System.Drawing.Size(505, 450);
+            this.gbSourceProcesses.Size = new System.Drawing.Size(504, 483);
             this.gbSourceProcesses.TabIndex = 14;
             this.gbSourceProcesses.TabStop = false;
             this.gbSourceProcesses.Text = "Source Processes";
-            // 
-            // gbTargetProcesses
-            // 
-            this.gbTargetProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbTargetProcesses.Location = new System.Drawing.Point(514, 103);
-            this.gbTargetProcesses.Name = "gbTargetProcesses";
-            this.gbTargetProcesses.Size = new System.Drawing.Size(505, 450);
-            this.gbTargetProcesses.TabIndex = 15;
-            this.gbTargetProcesses.TabStop = false;
-            this.gbTargetProcesses.Text = "Target Processes";
             // 
             // chkSelectAll
             // 
@@ -291,37 +258,60 @@
             this.chkSelectAll.UseVisualStyleBackColor = true;
             this.chkSelectAll.CheckedChanged += new System.EventHandler(this.chkSelectAll_CheckedChanged);
             // 
+            // gbTargetProcesses
+            // 
+            this.gbTargetProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbTargetProcesses.Controls.Add(this.lvTargetProcesses);
+            this.gbTargetProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbTargetProcesses.Location = new System.Drawing.Point(513, 77);
+            this.gbTargetProcesses.Name = "gbTargetProcesses";
+            this.gbTargetProcesses.Size = new System.Drawing.Size(504, 483);
+            this.gbTargetProcesses.TabIndex = 15;
+            this.gbTargetProcesses.TabStop = false;
+            this.gbTargetProcesses.Text = "Target Processes";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.btn, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbTargetProcesses, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.gbSourceProcesses, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.27586F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.72414F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1020, 563);
+            this.tableLayoutPanel1.TabIndex = 16;
+            // 
             // MyPluginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btn);
-            this.Controls.Add(this.lvTargetProcesses);
-            this.Controls.Add(this.lvSourceProcesses);
-            this.Controls.Add(this.toolStripMenu);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.gbSourceProcesses);
-            this.Controls.Add(this.gbTargetProcesses);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "MyPluginControl";
-            this.Size = new System.Drawing.Size(1025, 556);
+            this.Size = new System.Drawing.Size(1026, 571);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
-            this.toolStripMenu.ResumeLayout(false);
-            this.toolStripMenu.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbSourceProcesses.ResumeLayout(false);
             this.gbSourceProcesses.PerformLayout();
+            this.gbTargetProcesses.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ToolStrip toolStripMenu;
-        private System.Windows.Forms.ToolStripButton tsbClose;
-        private System.Windows.Forms.ToolStripButton tsbSample;
-        private System.Windows.Forms.ToolStripSeparator tssSeparator1;
         private System.Windows.Forms.Button btnSelectTarget;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView lvSourceProcesses;
@@ -343,5 +333,6 @@
         private System.Windows.Forms.GroupBox gbSourceProcesses;
         private System.Windows.Forms.GroupBox gbTargetProcesses;
         private System.Windows.Forms.CheckBox chkSelectAll;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
